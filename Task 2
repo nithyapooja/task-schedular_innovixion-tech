@@ -1,0 +1,105 @@
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+public class TaskSchedulerApp {
+    private static List<Task> tasks = new ArrayList<>();
+    private static Scanner scanner = new Scanner(System.in);
+
+    public static void main(String[] args) {
+        boolean exit = false;
+        while (!exit) {
+            System.out.println("Task Scheduler");
+            System.out.println("1. Add Task");
+            System.out.println("2. View Tasks");
+            System.out.println("3. Exit");
+            System.out.print("Enter your choice: ");
+
+            int choice = scanner.nextInt();
+            scanner.nextLine(); // Consume newline
+
+            switch (choice) {
+                case 1:
+                    addTask();
+                    break;
+                case 2:
+                    viewTasks();
+                    break;
+                case 3:
+                    exit = true;
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+                    break;
+            }
+        }
+    }
+
+    private static void addTask() {
+        System.out.println("Enter Task Title:");
+        String title = scanner.nextLine();
+
+        System.out.println("Enter Due Date (YYYY-MM-DD HH:MM):");
+        LocalDateTime dueDate = LocalDateTime.parse(scanner.nextLine());
+
+        System.out.println("Enter Priority (1, 2, 3, etc.):");
+        int priority = scanner.nextInt();
+        scanner.nextLine(); // Consume newline
+
+        Task task = new Task(title, dueDate, priority);
+        tasks.add(task);
+
+        System.out.println("Task added successfully!");
+    }
+
+    private static void viewTasks() {
+        if (tasks.isEmpty()) {
+            System.out.println("No tasks found.");
+        } else {
+            System.out.println("Tasks:");
+            for (Task task : tasks) {
+                System.out.println("Title: " + task.getTitle());
+                System.out.println("Due Date: " + task.getDueDate());
+                System.out.println("Priority: " + task.getPriority());
+                System.out.println("----------------------------");
+            }
+        }
+    }
+}
+
+class Task {
+    private String title;
+    private LocalDateTime dueDate;
+    private int priority;
+
+    public Task(String title, LocalDateTime dueDate, int priority) {
+        this.title = title;
+        this.dueDate = dueDate;
+        this.priority = priority;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public LocalDateTime getDueDate() {
+        return dueDate;
+    }
+
+    public void setDueDate(LocalDateTime dueDate) {
+        this.dueDate = dueDate;
+    }
+
+    public int getPriority() {
+        return priority;
+    }
+
+    public void setPriority(int priority) {
+        this.priority = priority;
+    }
+}
